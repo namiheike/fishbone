@@ -2,7 +2,7 @@ part of fishbone;
 
 class Application {
   html.Element container;
-  String title;
+  String title = '';
   var controllers = {};
   var routes = {};
   var params = {};

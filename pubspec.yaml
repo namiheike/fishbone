@@ -1,8 +1,9 @@
 name: fishbone
-version: 0.0.1+1
+version: 0.0.1+2
 description: ''
 author: Nami WANG <namiheike@gmail.com>
 homepage: https://github.com/namiheike/fishbone
 documentation: https://github.com/namiheike/fishbone
 dependencies:
-  browser: 'any'
+  browser: any
+  barback: any
