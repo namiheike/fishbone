@@ -3,25 +3,31 @@ part of fishbone;
 class Controller {
   Controller() {}
 
-  void render(String action){
-    var views = js.context['views'];
-    String renderedHtml = views.callMethod("${getControllerAbbrName()}_$action");
+  void render(String action, {Map locals}){
+    var views = js.context['Fishbone']['views'];
+    String renderedHtml = views[getCurrentControllerAbbrName()].callMethod(action, [new js.JsObject.jsify(locals)]);
 
     html.HtmlElement controllerElement = new html.Element.tag('controller');
-    controllerElement.appendHtml(renderedHtml);
+    controllerElement.id = getCurrentControllerAbbrName();
+
+    html.HtmlElement actionElement = new html.Element.tag('action');
+    actionElement.id = action;
+
+    actionElement.appendHtml(renderedHtml);
+    controllerElement.append(actionElement);
     html.document.body.children.add(controllerElement);
   }
 
-  String getControllerFullName(){
+  String getCurrentControllerFullName(){
     // as 'MainController', 'UsersController'
     InstanceMirror instanceMirror = mirrors.reflect(this);
-    ClassMirror classMirror = instanceMirror.type; 
+    ClassMirror classMirror = instanceMirror.type;
     return mirrors.MirrorSystem.getName(classMirror.simpleName);
   }
-  
-  String getControllerAbbrName(){
+
+  String getCurrentControllerAbbrName(){
     // as 'main', 'users'
-    return getControllerFullName().replaceAll('Controller', '').toLowerCase();
+    return getCurrentControllerFullName().replaceAll('Controller', '').toLowerCase();
   }
 
   // TODO simulate a function class as action
